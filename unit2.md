@@ -4,7 +4,7 @@ En Ruby, la sintaxis y las estructuras fundamentales están diseñadas para la *
 
 ### 2.1. Variables, tipos de datos, operadores
 
-**Variables**
+##### Variables
 Las variables en Ruby son **contenedores mutables** para valores, similares a otros lenguajes de programación. No es necesario declarar explícitamente el tipo de una variable antes de usarla; Ruby es un **lenguaje de tipado dinámico** (o "duck typing"), lo que significa que el intérprete infiere el tipo de dato en tiempo de ejecución. Una variable puede cambiar de tipo durante la ejecución sin generar errores.
 
 Ruby distingue varios tipos de variables por su prefijo:
@@ -15,7 +15,7 @@ Ruby distingue varios tipos de variables por su prefijo:
 
 La **interpolación de variables** es una característica útil para incrustar el valor de una variable dentro de una cadena. Esto se logra usando la sintaxis `#{variable}` dentro de comillas dobles.
 
-**Tipos de datos**
+##### Tipos de datos
 Ruby incluye varios tipos de datos fundamentales. Los más comunes son:
 *   **Números**: Incluyen enteros (`Integer`) y números de punto flotante (`Float`). Ruby determina automáticamente si un número es entero o flotante según su valor. Se pueden escribir enteros en diferentes bases (hexadecimal, binario, octal) usando prefijos como `0x`, `0b`, `0` respectivamente. Para mayor legibilidad, se pueden usar guiones bajos como separadores de miles (`1_000`).
 *   **Cadenas (Strings)**: Secuencias de caracteres encerradas en comillas simples (`'`) o dobles (`"`). Las comillas dobles permiten la interpolación de cadenas y secuencias de escape. Ruby proporciona métodos para manipular cadenas, como `upcase()`, `downcase()`, `capitalize()` para cambiar el caso, y métodos con `!` (como `upcase!`) que modifican la cadena original de forma permanente. Otros métodos útiles incluyen `strip()` (para eliminar espacios en blanco), `start_with?()` y `end_with?()`. Se puede obtener la longitud de una cadena con `size()` o `length()`. Las cadenas se pueden **concatenar** con el operador `<<`. El método `split()` divide una cadena en un array basado en un delimitador.
@@ -24,7 +24,7 @@ Ruby incluye varios tipos de datos fundamentales. Los más comunes son:
 *   **Hashes**: Similares a los arrays asociativos de PHP, son colecciones de pares clave-valor donde las claves pueden ser cualquier tipo de objeto (comúnmente cadenas o símbolos). Se accede a los valores mediante su clave.
 *   **Símbolos (Symbols)**: Identificadores ligeros e **inmutables**, prefijados con dos puntos (`:`) (por ejemplo, `:name`). Se utilizan cuando la identidad de un objeto es más importante que su contenido. Son especialmente eficientes para usar como claves en hashes, ya que se almacenan una sola vez en memoria, ofreciendo un mejor rendimiento que las cadenas mutables.
 
-**Operadores**
+##### Operadores
 Ruby soporta una variedad de operadores, organizados por precedencia:
 *   **Aritméticos**: `+` (suma), `-` (resta), `*` (multiplicación), `/` (división), `%` (módulo), `**` (exponenciación).
 *   **De asignación**: `=` (asignación simple), `+=`, `-=`, `*=` (asignación abreviada). Ruby permite la **asignación paralela**, como `x, y = y, x`, que es útil para intercambiar valores.
@@ -35,15 +35,15 @@ Ruby soporta una variedad de operadores, organizados por precedencia:
 
 ### 2.2. Expresiones, comentarios y estructuras de control (if, case, while, for)
 
-**Expresiones**
+##### Expresiones
 Una expresión en Ruby es una combinación de operadores y operandos que Ruby evalúa para producir un valor. La **precedencia de operadores** determina el orden en que se evalúan las operaciones. Los paréntesis se pueden usar para alterar esta precedencia. En Ruby, **cada línea de código intenta devolver un valor**, y los métodos devuelven implícitamente el resultado de la última expresión evaluada.
 
-**Comentarios**
+##### Comentarios
 Los comentarios son esenciales para la claridad del código. En Ruby:
 *   Los **comentarios de una sola línea** comienzan con el símbolo de almohadilla (`#`).
 *   Los **comentarios multilínea** se definen entre las palabras clave `=begin` y `=end`. Sin embargo, la comunidad Ruby rara vez usa esta notación, priorizando la legibilidad del código sin necesidad de comentarios extensos. La recomendación es que los comentarios expliquen el "por qué" de una decisión de diseño, no el "qué" hace el código, ya que este debe ser autoexplicativo.
 
-**Estructuras de control**
+##### Estructuras de control
 Las estructuras de control modifican el flujo de ejecución secuencial de un script, introduciendo condicionalidad o repetición.
 *   **Sentencia `if`**: Permite ejecutar un bloque de código si una condición es verdadera. Puede ir acompañada de una cláusula `else` para el caso en que la condición sea falsa, y `elsif` para verificar múltiples condiciones alternativas.
 *   **Sentencia `unless`**: Una "sentencia if negativa", ejecuta el código solo cuando la condición **no se cumple**. No puede tener una cláusula `else`.
@@ -62,17 +62,17 @@ Las estructuras de control modifican el flujo de ejecución secuencial de un scr
 
 ### 2.3. Bloques, iteradores (each, map, select), enumerables
 
-**Bloques**
+##### Bloques
 Los bloques son **fragmentos de código** que se encierran entre llaves (`{}`) para bloques de una sola línea, o entre `do...end` para bloques de varias líneas. Los bloques se pueden pasar implícitamente a métodos usando la palabra clave `yield` dentro del método. Los bloques pueden recibir parámetros del método que los llama y tienen acceso a las variables locales del contexto donde fueron definidos. A diferencia de los Procs y Lambdas, los bloques no se pueden guardar directamente como objetos.
 
-**Procs y Lambdas**
+##### Procs y Lambdas
 Ambos son mecanismos para encapsular bloques de código en objetos que pueden ser almacenados en variables y pasados como argumentos, mejorando la reutilización y flexibilidad del código.
 *   **Procs**: Son una forma de procedimiento encapsulado en un objeto de la clase `Proc`. Son más **flexibles** con el manejo de argumentos (no verifican la cantidad de argumentos pasados) y una sentencia `return` dentro de un Proc **sale del método** que contiene el Proc.
 *   **Lambdas**: Son una variante de Proc. Se definen con una sintaxis concisa (`-> {}`) y son más **estrictas** con el manejo de argumentos (lanzan un error si la cantidad no coincide). Una sentencia `return` dentro de una Lambda solo sale de la Lambda, no del método que la contiene.
 
 El operador `&` se utiliza para **convertir un bloque en un objeto Proc** (cuando se pasa a un parámetro de método) o para convertir un objeto Proc/Lambda de nuevo en un bloque (cuando se llama a un método que espera un bloque).
 
-**Iteradores (`each`, `map`, `select`) y el módulo Enumerable**
+##### Iteradores (`each`, `map`, `select`) y el módulo Enumerable
 El **módulo `Enumerable`** es fundamental en Ruby para operaciones basadas en colecciones. Proporciona una gran cantidad de métodos para recorrer, buscar, ordenar y manipular colecciones, como Arrays, Hashes y Ranges. Para usar estos métodos, una clase debe incluir el módulo `Enumerable` e implementar su propio método `each`.
 *   **`each`**: Es el iterador más básico y fundamental. Permite recorrer cada elemento de una colección. También existe `each_with_index` que, además del elemento, proporciona su índice en la colección.
 *   **`map`**: Transforma cada elemento de una colección aplicando un bloque de código y devuelve un **nuevo array** con los resultados transformados. No modifica la colección original.
