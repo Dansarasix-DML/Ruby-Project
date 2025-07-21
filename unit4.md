@@ -122,3 +122,260 @@ Piensa en la Programación Orientada a Objetos en Ruby como un gran estudio de c
     *   **Protegido** es información compartida solo entre miembros del mismo equipo de producción (los actores pueden hablar entre sí sobre cómo interpretar una escena, pero no con la audiencia).
 *   Las **buenas prácticas de reutilización de código** son como un director eficiente que no reinventa la rueda: usa el mismo escenario para varias escenas, reutiliza el vestuario si es posible, y adapta los guiones existentes en lugar de escribir uno nuevo desde cero para cada película.
 
+---
+
+¡Claro que sí! Aquí tienes ejemplos de Programación Orientada a Objetos (POO) en Ruby, siguiendo los puntos que mencionamos anteriormente, con el apoyo de los fuentes:
+
+### 1. Clases y Objetos (Class and Object Definition)
+
+En Ruby, **una clase es un plano o plantilla (blueprint) para crear objetos**. **Casi todo en Ruby es un objeto**. Los objetos son instancias específicas de una clase.
+
+*   **Definición de una Clase:**
+    Las clases se definen usando la palabra clave `class` seguida del nombre de la clase (que debe comenzar con una letra mayúscula) y se cierran con `end`.
+
+    ```ruby
+    class Person # El nombre de la clase empieza con mayúscula
+      # Código de la clase
+    end
+    ```
+
+*   **Variables de Instancia:**
+    Las variables de instancia (`@variable_name`) son los atributos o propiedades de un objeto individual. Se declaran con un `@` delante y solo son accesibles a través de un método de instancia.
+
+*   **El Método `initialize` (Constructor):**
+    El método `initialize` es el **constructor** de la clase en Ruby. Se invoca automáticamente cada vez que se crea un nuevo objeto de la clase, y se puede usar para establecer los valores iniciales de las variables de instancia.
+
+    ```ruby
+    class Person
+      def initialize(first_name, last_name) # El constructor se llama 'initialize'
+        @first_name = first_name # Variables de instancia se definen con @
+        @last_name = last_name
+      end
+
+      def full_name # Un método de instancia
+        puts "#{@first_name} #{@last_name}" # Acceso a variables de instancia
+      end
+    end
+    ```
+   
+
+*   **Creación de Objetos (Instanciación):**
+    Para crear un objeto (una instancia de la clase), se usa el método `new()` en la clase.
+
+    ```ruby
+    jim = Person.new('James', 'Raynor') # Creamos una nueva instancia de Person
+    jim.full_name # Llamamos a un método en el objeto 'jim'
+    # Salida: James Raynor
+    ```
+   
+
+    También puedes crear múltiples objetos, cada uno con su propio conjunto de datos de instancia:
+    ```ruby
+    sarah = Person.new('Sarah', 'Kerrigan')
+    arcturus = Person.new('Arcturus', 'Mengsk')
+
+    sarah.full_name # Salida: Sarah Kerrigan
+    arcturus.full_name # Salida: Arcturus Mengsk
+    ```
+   
+
+### 2. Herencia (Inheritance)
+
+La **herencia es una característica fundamental de la POO que permite que una clase (subclase o clase hija) adquiera las propiedades y métodos de otra clase (superclase o clase padre)**. Esto facilita la **reutilización de código** y la creación de una clasificación jerárquica de clases. En Ruby, se utiliza el símbolo `<` para indicar la herencia.
+
+*   **Ejemplo de Herencia Simple:**
+    ```ruby
+    class Animal # Clase padre o superclase
+      def eat
+        # Implementación de cómo un animal come
+        puts "Animal eating..."
+      end
+
+      # No hay método 'sound' definido aquí
+    end
+
+    class Cat < Animal # Cat hereda de Animal
+      def sound
+        puts "Meow"
+      end
+    end
+
+    class Dog < Animal # Dog también hereda de Animal
+      def sound
+        puts "Woof"
+      end
+    end
+
+    my_cat = Cat.new
+    my_cat.eat # El método 'eat' es heredado de Animal
+    my_cat.sound # El método 'sound' es específico de Cat
+    # Salida:
+    # Animal eating...
+    # Meow
+
+    my_dog = Dog.new
+    my_dog.eat # El método 'eat' también es heredado por Dog
+    my_dog.sound # El método 'sound' es específico de Dog
+    # Salida:
+    # Animal eating...
+    # Woof
+    ```
+   
+
+*   **Uso de `super` en el Constructor o Métodos:**
+    La palabra clave `super` se utiliza en una subclase para llamar al método correspondiente de la superclase. Esto es común en el método `initialize` de la clase hija para asegurarse de que los atributos del padre se inicialicen correctamente.
+
+    ```ruby
+    class Vehicle
+      def initialize(model, year)
+        @model = model
+        @year = year
+      end
+
+      def display_info
+        puts "Model: #{@model}, Year: #{@year}"
+      end
+    end
+
+    class ElectricCar < Vehicle # ElectricCar hereda de Vehicle
+      def initialize(name, speed, battery_range)
+        # Llama al constructor de la clase padre (Vehicle)
+        super(name, speed) # 'name' y 'speed' son pasados al initialize de Vehicle
+        @battery_range = battery_range
+      end
+
+      # Sobreescribe el método display_efficiency para ElectricCar
+      def display_efficiency
+        puts "The #{@model} moves at #{@speed} mph and has a range of #{@battery_range} miles on a full charge."
+      end
+    end
+
+    electric_vehicle = ElectricCar.new("Tesla", 60, 300)
+    electric_vehicle.display_efficiency
+    # Salida: The Tesla moves at 60 mph and has a range of 300 miles on a full charge.
+    ```
+   
+
+### 3. Métodos de Acceso a Atributos (Attribute Accessors)
+
+Los métodos de acceso a atributos son una característica conveniente en Ruby que permite crear automáticamente métodos "getter" (lectura) y "setter" (escritura) para las variables de instancia de una clase, reduciendo la cantidad de código repetitivo (DRY - Don't Repeat Yourself).
+
+*   **`attr_reader`**: Crea un método getter para leer el valor de una variable de instancia.
+*   **`attr_writer`**: Crea un método setter para escribir (cambiar) el valor de una variable de instancia.
+*   **`attr_accessor`**: Combina ambos, creando un getter y un setter.
+
+*   **Ejemplo con `attr_accessor`:**
+    ```ruby
+    class Car
+      attr_accessor :model, :color # Define getters y setters para :model y :color
+
+      def initialize(model, color)
+        @model = model
+        @color = color
+      end
+
+      def describe
+        puts "This is a #{@model} car and its color is #{@color}."
+      end
+    end
+
+    my_car = Car.new('Tesla', 'red')
+    my_car.describe # Salida: This is a Tesla car and its color is red.
+
+    # Usando el getter de 'model'
+    puts my_car.model # Salida: Tesla
+
+    # Usando el setter de 'color'
+    my_car.color = 'blue'
+    my_car.describe # Salida: This is a Tesla car and its color is blue.
+    ```
+   
+
+### 4. Módulos y Mixins (Modules and Mixins)
+
+Los **módulos en Ruby sirven para dos propósitos principales: como "namespaces" (espacios de nombres) para evitar conflictos de nombres, y como "mixins" para compartir funcionalidades entre clases sin usar herencia directa**. Esto es crucial porque las clases en Ruby solo soportan herencia simple (una clase solo puede heredar de una superclase).
+
+*   **Módulos como Mixins (`include`):**
+    Cuando un módulo se incluye (`include`) en una clase, sus métodos se convierten en **métodos de instancia** de esa clase. Esto permite compartir comportamientos comunes entre clases no relacionadas jerárquicamente.
+
+    ```ruby
+    module Greetable # Definición de un módulo
+      def greet(name)
+        puts "Hello, #{name}"
+      end
+    end
+
+    class Person
+      include Greetable # Incluimos el módulo Greetable
+      def initialize(name)
+        @name = name
+      end
+    end
+
+    class Robot
+      include Greetable # También incluimos el módulo Greetable
+      def initialize(name)
+        @name = name
+      end
+    end
+
+    person = Person.new("Alice")
+    person.greet("Alice") # Los métodos del módulo se comportan como métodos de instancia
+    # Salida: Hello, Alice
+
+    robot = Robot.new("R2-D2")
+    robot.greet("R2-D2")
+    # Salida: Hello, R2-D2
+    ```
+   
+
+*   **Módulos como Mixins (`extend`):**
+    Si se utiliza `extend` en lugar de `include`, los métodos del módulo se convierten en **métodos de clase** de la clase objetivo.
+
+    ```ruby
+    module ClassMethodsExample
+      def say_hello_class
+        puts "Hello from a class method!"
+      end
+    end
+
+    class MyClass
+      extend ClassMethodsExample # Los métodos del módulo se vuelven métodos de clase
+    end
+
+    MyClass.say_hello_class
+    # Salida: Hello from a class method!
+    ```
+   
+
+*   **Módulos como Namespaces (Espacios de Nombres):**
+    Los módulos también se utilizan para agrupar clases, módulos y métodos relacionados, evitando conflictos de nombres cuando diferentes partes de un programa o bibliotecas externas utilizan los mismos identificadores.
+
+    ```ruby
+    module LibraryA
+      class Client
+        def initialize
+          puts "Client from Library A"
+        end
+      end
+    end
+
+    module LibraryB
+      class Client
+        def initialize
+          puts "Client from Library B"
+        end
+      end
+    end
+
+    # Para instanciar Client de LibraryA, se usa el operador ::
+    client_a = LibraryA::Client.new
+    # Salida: Client from Library A
+
+    # Para instanciar Client de LibraryB
+    client_b = LibraryB::Client.new
+    # Salida: Client from Library B
+    ```
+   
+
+La POO en Ruby es como un juego de construcción con piezas de LEGO. Las **Clases** son los planos detallados de diferentes tipos de bloques (cuadrados, redondos, grandes, pequeños). Cada vez que construyes un **Objeto**, es como si fabricaras un bloque físico siguiendo ese plano. La **Herencia** te permite tomar un plano base (como un bloque de casa genérico) y crear planos más específicos (una casa de campo, un rascacielos) que ya incluyen las características del plano base. Los **Métodos de Acceso a Atributos** son como etiquetas en tus bloques para leer o cambiar rápidamente sus propiedades, como el color o el tamaño, sin tener que desarmarlos. Finalmente, los **Módulos y Mixins** son como kits de accesorios (por ejemplo, "ruedas para vehículos" o "alas para aviones") que puedes atornillar a cualquier tipo de bloque, permitiéndoles volar o rodar sin tener que rediseñar todo el bloque desde cero para cada función, y sin que se confundan las "ruedas" con las "alas" si tienes múltiples kits. Cada pieza encaja para crear estructuras de código robustas y organizadas.
