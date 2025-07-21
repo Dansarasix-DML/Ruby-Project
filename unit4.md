@@ -124,7 +124,7 @@ Piensa en la Programación Orientada a Objetos en Ruby como un gran estudio de c
 
 ---
 
-¡Claro que sí! Aquí tienes ejemplos de Programación Orientada a Objetos (POO) en Ruby, siguiendo los puntos que mencionamos anteriormente, con el apoyo de los fuentes:
+### 4.5. Ejemplos de POO
 
 ### 1. Clases y Objetos (Class and Object Definition)
 
